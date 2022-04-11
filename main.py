@@ -32,6 +32,9 @@ b_encode.grid(row=5, column=1)
 b_encode = tk.Button(window, text='Zapisz dane', width=20, command=lambda: save_file())
 b_encode.grid(row=6, column=1)
 
+shift = Spinbox(window, from_=1, to=100)
+shift.grid(row=7, column=1)
+
 vlist = ["Cypher", "ROT 13"]
 
 lista = ttk.Combobox(window, values=vlist)
@@ -50,8 +53,9 @@ def upload_file():
 def encode():
     global save_cont
     if lista.get() == "Cypher":
+        number = int(shift.get())
         way = 0
-        encode_text = cypher(way)
+        encode_text = cypher(way, number)
         save_cont = encode_text
         print(encode_text)
     elif lista.get() == "ROT 13":
@@ -62,10 +66,12 @@ def encode():
 
 
 def decode():
+    global shift
     global save_cont
     if lista.get() == "Cypher":
+        number = int(shift.get())
         way = 1
-        decode_text = cypher(way)
+        decode_text = cypher(way, number)
         save_cont = decode_text
         print(decode_text)
     elif lista.get() == "ROT 13":
@@ -81,16 +87,16 @@ def save_file():
     fob.close()
 
 
-def cypher(way):
+def cypher(way, shift):
     global file_cont
     cipher_text = ""
     for letter in file_cont:
         if letter in alphabet:
             position = alphabet.index(letter)
             if way == 0:
-                new_position = position + 5
+                new_position = position + shift
             elif way == 1:
-                new_position = position - 5
+                new_position = position - shift
             cipher_text += alphabet[new_position]
         else:
             cipher_text += letter
@@ -112,5 +118,5 @@ def ROT_13(way):
             cipher_text += letter
     return cipher_text
 
-window.mainloop()
 
+window.mainloop()
