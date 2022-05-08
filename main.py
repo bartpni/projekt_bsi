@@ -11,6 +11,9 @@ new_alphabet = ['f', 'c', 'p', 'e', 'v', 'q', 'k', 'z', 'g', 'm', 't', 'r', 'a',
                 'h', 'b', 'x', 's', 'i','f', 'c', 'p', 'e', 'v', 'q', 'k', 'z', 'g', 'm', 't', 'r', 'a', 'y', 'o', 'n',
                 'u', 'j', 'd', 'l', 'w', 'h', 'b', 'x', 's', 'i']
 
+vatsayana_alphabet = [['n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'],
+                      ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']]
+
 file_cont = ""
 save_cont = ""
 window = tk.Tk()
@@ -166,6 +169,43 @@ def Arbitry(way):
         else:
             cipher_text += letter
     return cipher_text
+
+
+def getPosition(table, ch):
+    row = -1
+    if ch in table[0]:
+        row = 0
+    elif ch in table[1]:
+        row = 1
+
+    if row != -1:
+        return (row, table[row].index(ch))
+    else:
+        return (None, None)
+
+
+def getOpponent(table, ch):
+    row, col = getPosition(table, ch)
+    if row == 1:
+        return table[0][col]
+    elif row == 0:
+        return table[1][col]
+
+
+def Vatsayana(table, words):
+    global file_cont
+    cipher_text=""
+    for ch in words:
+        if str.isalpha(ch):
+            ch = getOpponent(table, ch)
+        cipher_text += ch
+
+
+text ="this is example"
+
+krypto = Vatsayana(vatsayana_alphabet,text)
+
+print(krypto)
 
 window.mainloop()
 
